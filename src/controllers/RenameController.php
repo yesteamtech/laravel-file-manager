@@ -1,17 +1,17 @@
-<?php namespace Unisharp\Laravelfilemanager\controllers;
+<?php namespace Yesteamtech\Laravelfilemanager\controllers;
 
 use Illuminate\Support\Facades\Event;
-use Unisharp\Laravelfilemanager\controllers\Controller;
+use Yesteamtech\Laravelfilemanager\controllers\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Str;
 use Lang;
-use Unisharp\Laravelfilemanager\Events\ImageWasRenamed;
+use Yesteamtech\Laravelfilemanager\Events\ImageWasRenamed;
 
 /**
  * Class RenameController
- * @package Unisharp\Laravelfilemanager\controllers
+ * @package Yesteamtech\Laravelfilemanager\controllers
  */
 class RenameController extends LfmController {
 

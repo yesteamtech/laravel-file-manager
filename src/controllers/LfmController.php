@@ -1,13 +1,13 @@
-<?php namespace Unisharp\Laravelfilemanager\controllers;
+<?php namespace Yesteamtech\Laravelfilemanager\controllers;
 
-use Unisharp\Laravelfilemanager\controllers\Controller;
+use Yesteamtech\Laravelfilemanager\controllers\Controller;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 
 /**
  * Class LfmController
- * @package Unisharp\Laravelfilemanager\controllers
+ * @package Yesteamtech\Laravelfilemanager\controllers
  */
 class LfmController extends Controller {
 

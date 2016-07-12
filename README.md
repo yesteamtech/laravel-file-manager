@@ -74,7 +74,7 @@ class UploadListener
 ```
 
 List of events:
- * Unisharp\Laravelfilemanager\Events\ImageWasUploaded
+ * Yesteamtech\Laravelfilemanager\Events\ImageWasUploaded
 
 ## Credits
  * All contibutors from GitHub. (issues / PR)
