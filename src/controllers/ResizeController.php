@@ -47,6 +47,7 @@ class ResizeController extends LfmController {
 
         return View::make('laravel-filemanager::resize')
             ->with('img', parent::getUrl('directory') . $image)
+            ->with('imgName', $image)
             ->with('height', number_format($height, 0))
             ->with('width', $width)
             ->with('original_height', $original_height)
@@ -59,13 +60,15 @@ class ResizeController extends LfmController {
     public function performResize()
     {
         $img    = Input::get('img');
+        $imgName    = Input::get('imgName');
+        $workingDir    = trim(Input::get('working_dir'));
         $dataX  = Input::get('dataX');
         $dataY  = Input::get('dataY');
         $height = Input::get('dataHeight');
         $width  = Input::get('dataWidth');
 
         try {
-            Image::make(public_path() . $img)->resize($width, $height)->save();
+            Image::make($this->getImagePathForProcess($workingDir, $imgName))->resize($width, $height)->save();
             return "OK";
         } catch (Exception $e) {
             return "width : " . $width . " height: " . $height;

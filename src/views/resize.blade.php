@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row fill">
     <div class="col-md-8 fill" id="containment">
-      <img id="resize" src="{{ asset($img) }}" height="{{ $height }}" width="{{ $width }}">
+      <img id="resize" src="{{ $img }}" height="{{ $height }}" width="{{ $width }}">
     </div>
     <div class="col-md-4 fill">
 
@@ -74,9 +74,10 @@
     $.ajax({
       type: "GET",
       dataType: "text",
-      url: "laravel-filemanager/doresize",
+      url: "<?= route('yesteamtech.lfm.performResize') ?>",
       data: {
         img: '{{ $img }}',
+        imgName: '{{ $imgName }}',
         working_dir: $("#working_dir").val(),
         dataX: $("#dataX").val(),
         dataY: $("#dataY").val(),

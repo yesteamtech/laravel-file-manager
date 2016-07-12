@@ -138,7 +138,7 @@ class LfmController extends Controller {
     {
         $url = $this->dir_location;
 
-        $url = $this->formatLocation($url, $type);
+        $url = $this->formatLocation($url.'/', $type);
 
         $url = str_replace('\\','/',$url);
 
@@ -176,5 +176,19 @@ class LfmController extends Controller {
         $arr_filename['long'] = '/' . $lfm_file_path;
 
         return $arr_filename;
+    }
+
+    public function correctPath($path)
+    {
+        while( strpos($path, '//') !== false ) {
+           $path = str_replace('//','/',$path);
+        }
+
+        return $path;
+    }
+
+    public function getImagePathForProcess($workingDir, $imgName)
+    {
+        return public_path($this->correctPath(config('lfm.images_dir'). $workingDir.'/'. $imgName));
     }
 }

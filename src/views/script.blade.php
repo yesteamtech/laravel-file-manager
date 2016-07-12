@@ -2,8 +2,8 @@
 var ds            = '/';
 var home_dir      = ds + "{{ (Config::get('lfm.allow_multi_user')) ? Auth::user()->user_field : '' }}";
 var shared_folder = ds + "{{ Config::get('lfm.shared_folder_name') }}";
-var image_url     = "{{ asset(Config::get('lfm.images_url')) }}";
-var file_url      = "{{ asset(Config::get('lfm.files_url')) }}";
+var image_url     = "{{ Config::get('lfm.images_url') }}";
+var file_url      = "{{ Config::get('lfm.files_url') }}";
 
 $(document).ready(function () {
   bootbox.setDefaults({locale:"{{ Lang::get('laravel-filemanager::lfm.locale-bootbox') }}"});
@@ -16,11 +16,6 @@ $(document).ready(function () {
 // ======================
 // ==  Navbar actions  ==
 // ======================
-
-$('#nav-buttons a').click(function (e) {
-  e.preventDefault();
-});
-
 $('#to-previous').click(function () {
   var working_dir = $('#working_dir').val();
   var last_ds = working_dir.lastIndexOf(ds);
@@ -93,6 +88,11 @@ function dir_starts_with(str) {
 
 function setOpenFolders() {
   var folders = $('.folder-item');
+    if($('#working_dir').val() != '/') {
+        $('.yes-up-folder-btn-container').show();
+    } else {
+        $('.yes-up-folder-btn-container').hide();
+    }
 
   for (var i = folders.length - 1; i >= 0; i--) {
     // close folders that are not parent
@@ -112,7 +112,7 @@ function loadFolders() {
   $.ajax({
     type: 'GET',
     dataType: 'html',
-    url: 'laravel-filemanager/folders',
+    url: "<?= route('yesteamtech.lfm.getFolders') ?>",
     data: {
       working_dir: $('#working_dir').val(),
       show_list: $('#show_list').val(),
@@ -131,7 +131,7 @@ function loadItems() {
   $.ajax({
     type: 'GET',
     dataType: 'html',
-    url: 'laravel-filemanager/jsonitems',
+    url: "<?= route('yesteamtech.lfm.getItems') ?>",
     data: {
       working_dir: working_dir,
       show_list: $('#show_list').val(),
@@ -150,7 +150,7 @@ function createFolder(folder_name) {
   $.ajax({
     type: 'GET',
     dataType: 'text',
-    url: 'laravel-filemanager/newfolder',
+    url: "<?= route('yesteamtech.lfm.getAddfolder') ?>",
     data: {
       name: folder_name,
       working_dir: $('#working_dir').val(),
@@ -177,7 +177,7 @@ function rename(item_name) {
         $.ajax({
           type: 'GET',
           dataType: 'text',
-          url: 'laravel-filemanager/rename',
+          url: "<?= route('yesteamtech.lfm.getRename') ?>",
           data: {
             file: item_name,
             working_dir: $('#working_dir').val(),
@@ -204,7 +204,7 @@ function trash(item_name) {
       $.ajax({
         type: 'GET',
         dataType: 'text',
-        url: 'laravel-filemanager/delete',
+        url: "<?= route('yesteamtech.lfm.getDelete') ?>",
         data: {
           working_dir: $('#working_dir').val(),
           items: item_name,
@@ -229,7 +229,7 @@ function cropImage(image_name) {
   $.ajax({
     type: 'GET',
     dataType: 'text',
-    url: 'laravel-filemanager/crop',
+    url: "<?= route('yesteamtech.lfm.getCrop') ?>",
     data: {
       img: image_name,
       working_dir: $('#working_dir').val(),
@@ -246,7 +246,7 @@ function resizeImage(image_name) {
   $.ajax({
     type: 'GET',
     dataType: 'text',
-    url: 'laravel-filemanager/resize',
+    url: "<?= route('yesteamtech.lfm.getResize') ?>",
     data: {
       img: image_name,
       working_dir: $('#working_dir').val(),
@@ -260,7 +260,7 @@ function resizeImage(image_name) {
 }
 
 function download(file_name) {
-  location.href = 'laravel-filemanager/download?'
+  location.href = "<?= route('yesteamtech.lfm.getDownload') ?>?"
   + 'working_dir='
   + $('#working_dir').val()
   + '&type='
