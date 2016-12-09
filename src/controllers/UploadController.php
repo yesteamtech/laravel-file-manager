@@ -54,6 +54,18 @@ class UploadController extends LfmController {
         }
 
         Event::fire(new ImageWasUploaded(realpath($dest_path.'/'.$new_filename)));
+        
+        // uploaded via drag and drop or copy and paste to ckeditor using UploadImage Addon
+        if (Input::has('responseType') and (Input::get('responseType') == 'json')) {
+            
+            return json_encode([
+				"uploaded" 	=> 1,
+				"fileName" 	=> $new_filename,
+				"url"		=> parent::getUrl() . $new_filename
+				]
+			);
+            
+        }
 
         // upload via ckeditor 'Upload' tab
         if (!Input::has('show_list')) {
