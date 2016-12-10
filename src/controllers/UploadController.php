@@ -44,7 +44,21 @@ class UploadController extends LfmController {
         $dest_path = parent::getPath('directory');
 
         if (File::exists($dest_path . $new_filename)) {
-            return Lang::get('laravel-filemanager::lfm.error-file-exist');
+
+            $fileCheckAttempts = 1;
+
+            for ($fileCheckAttempt=0; $fileCheckAttempt < $fileCheckAttempts; $fileCheckAttempt++) { 
+                if($fileCheckAttempts !== 10) {
+
+                    if (File::exists($dest_path . $new_filename)) {
+
+                        $new_filename = $this->getNewName($file, true);
+                        //return Lang::get('laravel-filemanager::lfm.error-file-exist');
+                     }
+
+                    $fileCheckAttempts++;
+                }
+            }
         }
 
         $file->move($dest_path, $new_filename);
@@ -114,12 +128,16 @@ class UploadController extends LfmController {
         return $is_valid;
     }
 
-    private function getNewName($file)
+    private function getNewName($file, $setUniqueName = false)
     {
         $new_filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
         if (Config::get('lfm.rename_file') === true) {
-            $new_filename = uniqid();
+
+            if($setUniqueName === true) {
+                $new_filename = $new_filename.'_'.uniqid();
+            }
+            
         } elseif (Config::get('lfm.alphanumeric_filename') === true) {
             $new_filename = preg_replace('/[^A-Za-z0-9\-\']/', '_', $new_filename);
         }
